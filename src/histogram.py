@@ -45,13 +45,15 @@ def selectMenu():
           print(str(i) + ": " + choice)
           i+=1
 
-     selectedChoice = int(input("Please enter your choice : "))
-     if (selectedChoice > 0):
-          getCourseHistogram(choices[selectedChoice])
-     else: 
-          for choice in choices:
-               if choice != "All":
-                    getCourseHistogram(choice)
+     try:
+          selectedChoice = int(input("Please enter your choice : "))
+     except ValueError:
+          selectedChoice = 0
+
+     if selectedChoice < 0 or selectedChoice >= len(choices):
+          selectedChoice = 0
+
+     return choices[selectedChoice]
 
 def mainHistogram():
      course = selectMenu()
