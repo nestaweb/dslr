@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+import sys
+import math
 
 def ft_min(data):
 	min_val = data[0]
@@ -35,9 +37,9 @@ def ft_std(data):
 
 def ft_percentile(data, p):
 	data = sorted(data)
-	k = int(len(data) - 1 * p / 100)
+	k = (len(data) - 1) * (p / 100)
 	f = int(k)
-	c = ft_min([f + 1, len(data) - 1])
+	c = min(f + 1, len(data) - 1)
 	return data[f] + (data[c] - data[f]) * (k - f)
 
 def ft_describe(df: pd.DataFrame):
@@ -49,6 +51,7 @@ def ft_describe(df: pd.DataFrame):
 		stats = {}
 		stats["Count"] = len(data)
 		stats["Mean"] = ft_mean(data)
+		stats["Std"] = ft_std(data)
 		stats["Min"] = ft_min(data)
 		stats["25%"] = ft_percentile(data, 25)
 		stats["50%"] = ft_percentile(data, 50)
@@ -58,3 +61,22 @@ def ft_describe(df: pd.DataFrame):
 
 	# Convert to DataFrame for nice printing
 	return pd.DataFrame(result)
+
+def read_dataset(path: str) -> None:
+	try:
+		df = pd.read_csv(path)
+	except FileNotFoundError:
+		print(f"Error: file '{path}' not found.")
+		sys.exit(1)
+	except Exception as e:
+		print(f"Error reading '{path}': {e}")
+		sys.exit(1)
+
+	print(ft_describe(df).to_string())
+
+if __name__ == "__main__":
+	if len(sys.argv) != 2:
+		print("Usage: python script.py <dataset.csv>")
+		sys.exit(1)
+
+	read_dataset(sys.argv[1])
