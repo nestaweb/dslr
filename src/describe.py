@@ -26,14 +26,24 @@ def ft_mean(data):
 	return ft_sum / count
 
 def ft_std(data):
-	count = len(data)
-	mean = ft_mean(data)
-	ft_sum = 0
-	for feature in data:
-		if not pd.isna(feature):
-			xi = abs(feature - mean)
-			ft_sum += xi * xi
-	return math.sqrt(ft_sum / count)
+    clean_data = [x for x in data if not pd.isna(x)]
+    n = len(clean_data)
+    if n < 2:
+        return float("nan")  # std undefined for < 2 values
+
+    mean = ft_mean(clean_data)
+    variance = sum((x - mean) ** 2 for x in clean_data) / (n - 1)  # sample variance
+    return math.sqrt(variance)
+
+# def ft_std(data):
+# 	count = len(data)
+# 	mean = ft_mean(data)
+# 	ft_sum = 0
+# 	for feature in data:
+# 		if not pd.isna(feature):
+# 			xi = abs(feature - mean)
+# 			ft_sum += xi * xi
+# 	return math.sqrt(ft_sum / count)
 
 def ft_percentile(data, p):
 	data = sorted(data)
