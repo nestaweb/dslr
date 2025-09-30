@@ -35,16 +35,6 @@ def ft_std(data):
     variance = sum((x - mean) ** 2 for x in clean_data) / (n - 1)  # sample variance
     return math.sqrt(variance)
 
-# def ft_std(data):
-# 	count = len(data)
-# 	mean = ft_mean(data)
-# 	ft_sum = 0
-# 	for feature in data:
-# 		if not pd.isna(feature):
-# 			xi = abs(feature - mean)
-# 			ft_sum += xi * xi
-# 	return math.sqrt(ft_sum / count)
-
 def ft_percentile(data, p):
 	data = sorted(data)
 	k = (len(data) - 1) * (p / 100)
