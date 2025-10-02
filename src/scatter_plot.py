@@ -1,6 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from histogram import selectMenu
+from utils import DSLR
 
 def getCourseContent(course_a, course_b):
 	df = pd.read_csv("dataset/dataset_train.csv")
@@ -48,11 +48,35 @@ def plotCourseScatter(course_data, course_a, course_b):
 
 	plt.show()
 
+def selectMenu():
+	choices = DSLR.getNumericalFeature()
+	choices.insert(0, "Error")
+	i = 1
+	for choice in choices:
+		if choice == "Error":
+			continue
+		print(str(i) + ": " + choice)
+		i+=1
+
+	try:
+		selectedChoice = int(input("Please enter your choice : "))
+	except ValueError:
+		selectedChoice = 0
+
+	if selectedChoice < 0 or selectedChoice >= len(choices):
+		selectedChoice = 0
+
+	return choices[selectedChoice]
+
+
 def main():
 	course_a = selectMenu()
 	course_b = selectMenu()
-	data = getCourseContent(course_a, course_b)
-	plotCourseScatter(data, course_a, course_b)
+	if (course_a != "Error") and (course_b != "Error"):
+		data = getCourseContent(course_a, course_b)
+		plotCourseScatter(data, course_a, course_b)
+	else:
+		print("Error: Bad usage of menu.")
 
 if __name__ == "__main__":
 	main()
