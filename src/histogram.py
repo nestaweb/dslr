@@ -64,5 +64,5 @@ def mainHistogram():
           for course in courses:
                getCourseHistogram(course)
 
-
-mainHistogram()
+if __name__ == "__main__":
+	mainHistogram()

@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+from histogram import selectMenu
 
 def getCourseContent(course_a, course_b):
 	df = pd.read_csv("dataset/dataset_train.csv")
@@ -47,10 +48,12 @@ def plotCourseScatter(course_data, course_a, course_b):
 
 	plt.show()
 
-def ultimateScatterPlot(course_a, course_b):
+def main():
+	course_a = selectMenu()
+	course_b = selectMenu()
 	data = getCourseContent(course_a, course_b)
 	plotCourseScatter(data, course_a, course_b)
 
 if __name__ == "__main__":
-	ultimateScatterPlot("Arithmancy", "Astronomy")
+	main()
 

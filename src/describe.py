@@ -42,6 +42,25 @@ def ft_percentile(data, p):
 	c = min(f + 1, len(data) - 1)
 	return data[f] + (data[c] - data[f]) * (k - f)
 
+def ft_variance(data):
+	mean = ft_mean(data)
+	return sum((x - mean) ** 2 for x in data) / len(data) if len(data) > 0 else None
+
+def ft_range(data):
+	return ft_max(data) - ft_min(data) if len(data) > 0 else None
+
+def ft_unique_count(data):
+	return len(set(data))
+
+def ft_missing_values(data):
+	return sum(1 for x in data if pd.isna(x))
+
+def ft_mode(data):
+	freq = {}
+	for x in data:
+		freq[x] = freq.get(x, 0) + 1
+	return max(freq, key=freq.get) if freq else None
+
 def ft_describe(df: pd.DataFrame):
 	result = {}
 	numeric_df = df.select_dtypes(include=[np.number])  # do this to only keep numerical values
@@ -57,7 +76,11 @@ def ft_describe(df: pd.DataFrame):
 		stats["50%"] = ft_percentile(data, 50)
 		stats["75%"] = ft_percentile(data, 75)
 		stats["Max"] = ft_max(data)
-		result[col] = stats # store the data in the
+		stats["Range"] = ft_range(data)
+		stats["Unique"] = ft_unique_count(data)
+		stats["Missing"] = ft_missing_values(df[col].values)
+		stats["Mode"] = ft_mode(data)
+		result[col] = stats
 
 	# Convert to DataFrame for nice printing
 	return pd.DataFrame(result)
@@ -72,7 +95,7 @@ def read_dataset(path: str) -> None:
 		print(f"Error reading '{path}': {e}")
 		sys.exit(1)
 
-	print(ft_describe(df).to_string())
+	print(ft_describe(df))
 
 if __name__ == "__main__":
 	if len(sys.argv) != 2:
