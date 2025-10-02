@@ -6,8 +6,6 @@ def getCourseContent(course_a, course_b):
 
 	houses = {"Gryffindor": [], "Ravenclaw": [], "Slytherin": [], "Hufflepuff": []}
 
-	print(df.iterrows())
-
 	for _, row in df.iterrows():
 		house = row["Hogwarts House"]
 		if not pd.isna(row[course_a]) and not pd.isna(row[course_b]):
@@ -51,7 +49,7 @@ def plotCourseScatter(course_data, course_a, course_b):
 
 def ultimateScatterPlot(course_a, course_b):
 	data = getCourseContent(course_a, course_b)
-	# plotCourseScatter(data, course_a, course_b)
+	plotCourseScatter(data, course_a, course_b)
 
 if __name__ == "__main__":
 	ultimateScatterPlot("Arithmancy", "Astronomy")
